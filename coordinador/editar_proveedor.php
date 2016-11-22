@@ -11,8 +11,8 @@ $idproveedor = $_GET['id'];
 
 $sqlproveedor = pg_query($conexion, "SELECT p.id_proveedor, p.nit, p.razonsocial_proveedor, e.descripcion_estado, e.id_estadoproveedor
   FROM facturacionhts.proveedor p 
-  LEFT JOIN facturacionhts.estado_proveedor e ON e.id_estadoproveedor = p.id_proveedor
-WHERE e.id_estadoproveedor=$idproveedor ");
+  LEFT JOIN facturacionhts.estado_proveedor e ON e.id_estadoproveedor = p.id_estadoproveedor
+WHERE p.id_proveedor=$idproveedor ");
 
 $arrayproveedor = pg_fetch_array($sqlproveedor);
 

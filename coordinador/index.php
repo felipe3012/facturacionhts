@@ -110,7 +110,7 @@ require_once("../session.php");
                               <a class="list-group-item" href="#">Centro de Costos</a>
                               <a class="list-group-item" href="#">Facturas</a>
                               <a class="list-group-item" href="#">Clientes</a>
-                              <a class="list-group-item" href="#">Servicios</a>
+                              <a class="list-group-item" href="servicios.php">Servicios</a>
                               <a class="list-group-item" href="#">Contactos</a>
                             </div>
                         </div>    

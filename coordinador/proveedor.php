@@ -122,7 +122,8 @@ require_once("../session.php");
 						        <th>NIT</th>
 						        <th>RAZÓN SOCIAL</th>
 						        <th>ESTADO</th>
-						        <th>ARREGLOS</th>
+						        <th>EDITAR</th>
+                                <th>ELIMINAR</th>
 						      </tr>
 						    </thead>
 						    <tbody>
@@ -134,7 +135,8 @@ require_once("../session.php");
 						        <td><?php  echo $arreglo[1]; ?></td>
 						        <td><?php  echo $arreglo[2]; ?></td>
 						        <td><?php  echo $arreglo[3]; ?></td>
-						        <?php echo "<td><a href='editar_proveedor.php?id=$arreglo[0]'><i class='fa fa-pencil' aria-hidden='true'></i></a>&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;<a href=''><i class='fa fa-trash' aria-hidden='true'></i></a></td>"; ?>
+						        <?php echo "<td><a href='editar_proveedor.php?id=$arreglo[0]'><i class='fa fa-pencil' aria-hidden='true'></i></a></td>"; ?>
+                                <td><a href="javascript:;" onclick="aviso('controllers/delete_proveedor.php?id=<?php echo $arreglo[0];?>'); return false;"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
 						      </tr>
 						<?php 
 						}
@@ -166,6 +168,18 @@ require_once("../session.php");
 		        page: 1
 		    };
 		}	
+    </script>
+
+    <script language="JavaScript">
+    function aviso(url){
+    if (!confirm("ALERTA!! va a proceder a eliminar este registro, si desea eliminarlo de click en ACEPTAR\n de lo contrario de click en CANCELAR.")) {
+    return false;
+    }
+    else {
+    document.location = url;
+    return true;
+    }
+    }
     </script>
 
 </body>
