@@ -24,7 +24,7 @@ $arrayproveedor = pg_fetch_array($sqlproveedor);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Nuevo Proveedor</title>
+    <title>Editar Proveedor</title>
 
     <!--FAVICON-->
 

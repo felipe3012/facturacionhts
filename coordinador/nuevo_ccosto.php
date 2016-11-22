@@ -16,7 +16,7 @@ require_once("../session.php");
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Home</title>
+    <title>Nuevo Centro de Costo</title>
 
     <!--FAVICON-->
 
@@ -28,6 +28,10 @@ require_once("../session.php");
     <link rel="stylesheet" href="../assets/css/main.css" />-->
     <!--hoja estilos principal-->
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+
+    <script src="../assets/js/jquery-3.1.1.min.js"></script>
+
+    <script src="../assets/js/funciones.js"></script>
 
 </head>
 
@@ -71,6 +75,7 @@ require_once("../session.php");
 
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
+                    <li><a href="centro_costos.php" role="button" aria-expanded="false"><i class="fa fa-arrow-left" aria-hidden="true"></i> retroceder</a></li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     <?php echo $usuario; ?> <span class="caret"></span>
@@ -100,19 +105,47 @@ require_once("../session.php");
             <div class="col-md-3 col-md-offset-0">
             </div>
                 <div class="col-md-6 col-md-offset-0">
-                    <div class="panel panel-warning">
-                        <div class="panel-heading"><h2 style="text-align: center;">Menú Principal</h2></div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><h2 style="text-align: center;">Agregar un nuevo Centro de Costo</h2></div>
 
                         <div class="panel-body">
                         <div class="col-md-12">
-                            <div class="list-group col-md-12">
-                              <a class="list-group-item" href="proveedor.php">Prooveedores</a>
-                              <a class="list-group-item" href="centro_costos.php">Centro de Costos</a>
-                              <a class="list-group-item" href="#">Facturas</a>
-                              <a class="list-group-item" href="#">Clientes</a>
-                              <a class="list-group-item" href="servicios.php">Servicios</a>
-                              <a class="list-group-item" href="#">Contactos</a>
-                            </div>
+                           <form role="form" action="controllers/validar_ccosto.php" method="POST">
+                              <div class="form-group">
+                                <label for="nombre">NOMBRE:</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" required>
+                              </div>
+                              <div class="form-group">
+                                <label for="direccion">DIRECCIÓN:</label>
+                                <input type="text" class="form-control" id="direccion" name="direccion" required>
+                              </div>
+                              <div class="form-group">
+                                <label for="ejemplo_archivo_1">REGIÓN:</label>
+                                <select class="form-control" name="regional" id="regional" required>
+                                  <option value="">Seleccionar...</option>
+                                   <?php 
+                                      $sqlzona = pg_query($conexion, 'SELECT id_zona, nombre
+  										FROM facturacionhts.zonas');
+                                      while($arrayzona = pg_fetch_array($sqlzona)){ ?>
+                                   <option value="<?php echo $arrayzona['id_zona']; ?>"> <?php echo $arrayzona['nombre']; ?></option>
+                                      <?php 
+                                      } ?>
+                                </select>
+                              </div>
+                              <div class="form-group">
+                                <label for="ejemplo_archivo_1">DEPARTAMENTO:</label>
+                                <select class="form-control" name="departamento" id="departamento" required>
+                                  <option value="">Seleccionar...</option>
+                                </select>
+                              </div>
+                              <div class="form-group">
+                                <label for="ejemplo_archivo_1">MUNICIPIO:</label>
+                                <select class="form-control" name="ciudad" id="ciudad" required>
+                                  <option value="">Seleccionar...</option>
+                                </select>
+                              </div><br>
+                              <button type="submit" class="btn btn-primary">Guardar</button>
+                            </form>
                         </div>    
                         </div>
                         <div id="footer" class="panel-footer" style="color: black;">

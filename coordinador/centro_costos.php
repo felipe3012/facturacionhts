@@ -1,14 +1,16 @@
-<?php
-session_start(); 
+<?php 
+session_start();
 
 $usuario = $_SESSION['name'];
+
 
 include "../conexion.php";
 
 require_once("../session.php");
 
-
+	
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,18 +18,26 @@ require_once("../session.php");
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Home</title>
+    <title>Centro de Costos</title>
 
     <!--FAVICON-->
 
     <!--bootstrap-->
     <link rel="stylesheet" type="text/css" href="../bootstrap/css/bootstrap.min.css">
     <!--font-awesome-->
-    <link rel="stylesheet" type="text/css" href="../assets/css/font-awesome.min.css">
-    <!--hoja estilos principal
-    <link rel="stylesheet" href="../assets/css/main.css" />-->
+       <link rel="stylesheet" type="text/css" href="../assets/css/font-awesome.min.css">
+    <!--hoja estilos principal-->
+
     <!--hoja estilos principal-->
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+
+    <!--jquery-->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="../assets/js/jquery-3.1.1.min.js"></script>
+
+    <!--bootstrap js-->
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
+
 
 </head>
 
@@ -38,9 +48,6 @@ require_once("../session.php");
         background:rgba(237,235,235,0.5);
     }
 
-    a{
-        text-align: center;
-    }
 </style>
 
 <body>
@@ -58,7 +65,7 @@ require_once("../session.php");
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="home.php">
+                    <a class="navbar-brand" href="index.php">
                         Facturación HTS
                     </a>
                 </div>
@@ -71,6 +78,7 @@ require_once("../session.php");
 
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
+                    <li><a href="index.php" role="button" aria-expanded="false"><i class="fa fa-home" aria-hidden="true"></i> Inicio</a></li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     <?php echo $usuario; ?> <span class="caret"></span>
@@ -94,33 +102,56 @@ require_once("../session.php");
                 </div>
             </div>
         </nav>
-<br><br>
+
         <div class="container">
             <div class="row">
-            <div class="col-md-3 col-md-offset-0">
-            </div>
-                <div class="col-md-6 col-md-offset-0">
-                    <div class="panel panel-warning">
-                        <div class="panel-heading"><h2 style="text-align: center;">Menú Principal</h2></div>
-
+                <div class="col-md-12 col-md-offset-0">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><h2 style="text-align:center;">Centros de Costo</h2></div>
                         <div class="panel-body">
-                        <div class="col-md-12">
-                            <div class="list-group col-md-12">
-                              <a class="list-group-item" href="proveedor.php">Prooveedores</a>
-                              <a class="list-group-item" href="centro_costos.php">Centro de Costos</a>
-                              <a class="list-group-item" href="#">Facturas</a>
-                              <a class="list-group-item" href="#">Clientes</a>
-                              <a class="list-group-item" href="servicios.php">Servicios</a>
-                              <a class="list-group-item" href="#">Contactos</a>
-                            </div>
-                        </div>    
+                        <?php $sql=("SELECT c.id_centrocosto, c.nombre, c.direccion, d.nombre as departamento, m.nombre as municipio
+  FROM facturacionhts.centro_costos c
+  LEFT JOIN facturacionhts.municipios m ON m.id_municipio=c.municipios_id_municipio
+  LEFT JOIN facturacionhts.departamentos d ON d.id_departamento=m.departamentos_id_departamento
+  order by c.id_centrocosto");
+						$query=pg_query($conexion, $sql);
+						?>
+                        <table class="table table-hover" data-toggle="table" data-url="https://api.github.com/users/wenzhixin/repos" data-query-params="queryParams" data-pagination="true" data-search="true" data-height="300">
+						    <thead>
+						      <tr>
+						        <th>ID</th>
+						        <th>NOMBRE</th>
+						        <th>DIRECCIÓN</th>
+						        <th>DEPARTAMENTO</th>
+                                <th>MUNICIPIO</th>
+						        <th>EDITAR</th>
+                                <th>ELIMINAR</th>
+						      </tr>
+						    </thead>
+						    <tbody>
+						<?php 
+						while($arreglo=pg_fetch_array($query)){
+						?>  
+						      <tr>
+						        <td><?php  echo $arreglo[0]; ?></td>
+						        <td><?php  echo $arreglo[1]; ?></td>
+						        <td><?php  echo $arreglo[2]; ?></td>
+						        <td><?php  echo $arreglo[3]; ?></td>
+                                <td><?php  echo $arreglo[4]; ?></td>
+						        <?php echo "<td><a href='editar_ccosto.php?id=$arreglo[0]'><i class='fa fa-pencil' aria-hidden='true'></i></a></td>"; ?>
+                                <td><a href="javascript:;" onclick="aviso('controllers/delete_ccosto.php?id=<?php echo $arreglo[0];?>'); return false;"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
+						      </tr>
+						<?php 
+						}
+						?>      
+						    </tbody>
+						  </table>
+						  <a href="nuevo_ccosto.php" class="btn btn-primary" role="button">Agregar un nuevo Centro de Costo</a>
                         </div>
-                        <div id="footer" class="panel-footer" style="color: black;">
+                        <div id="footer" class="panel-footer">
                         Copyright <i class="fa fa-copyright" aria-hidden="true"></i> solucioneshts.com All Rights Reserved 2016
                         </div>
                     </div>
-                </div>
-                <div class="col-md-3 col-md-offset-0">
                 </div>
             </div>
         </div>
@@ -129,8 +160,30 @@ require_once("../session.php");
 
     <!-- JavaScripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js" integrity="sha384-I6F5OKECLVtK/BL+8iSLDEHowSAfUo76ZL9+kGAgTRdiByINKJaqTPH/QVNS1VDb" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
+    <script type="text/javascript">
+    	function queryParams() {
+		    return {
+		        type: 'owner',
+		        sort: 'updated',
+		        direction: 'desc',
+		        per_page: 100,
+		        page: 1
+		    };
+		}	
+    </script>
+
+    <script language="JavaScript">
+    function aviso(url){
+    if (!confirm("ALERTA!! va a proceder a eliminar este registro, si desea eliminarlo de click en ACEPTAR\n de lo contrario de click en CANCELAR.")) {
+    return false;
+    }
+    else {
+    document.location = url;
+    return true;
+    }
+    }
+    </script>
 
 </body>
 </html>
