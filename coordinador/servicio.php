@@ -18,7 +18,7 @@ require_once("../session.php");
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Clientes</title>
+    <title>Servicios</title>
 
     <!--FAVICON-->
 
@@ -107,22 +107,23 @@ require_once("../session.php");
             <div class="row">
                 <div class="col-md-12 col-md-offset-0">
                     <div class="panel panel-default">
-                        <div class="panel-heading"><h2 style="text-align:center;">Clientes</h2></div>
+                        <div class="panel-heading"><h2 style="text-align:center;">SERVICIOS</h2></div>
                         <div class="panel-body">
-
-                        <?php $sql=("SELECT c.id_cliente, c.nit, c.razonsocial_cliente FROM facturacionhts.clientes c order by c.id_cliente");
+                        <?php $sql=("SELECT s.id_servicio, s.nombre, s.descripcion FROM facturacionhts.servicios s 
+                        order by s.id_servicio");
                         $query=pg_query($conexion, $sql);
                         ?>
+
 
                         <table class="table table-hover" data-toggle="table" data-url="https://api.github.com/users/wenzhixin/repos" data-query-params="queryParams" data-pagination="true" data-search="true" data-height="300">
 						    <thead>
 						      <tr>
 						        <th>ID</th>
-						        <th>NIT</th>
-						        <th>RAZÓN SOCIAL</th>
-						        <th>EDITAR</th>
-                                <th>ElIMINAR</th>
-						      </tr>
+						        <th>NOMBRE</th>
+						        <th>DESCRIPCION</th>
+                                <th>EDITAR</th>
+                                <th>ELIMINAR</th>
+         					</tr>
 						    </thead>
 						    <tbody>
 						<?php 
@@ -132,21 +133,15 @@ require_once("../session.php");
 						        <td><?php  echo $arreglo[0]; ?></td>
 						        <td><?php  echo $arreglo[1]; ?></td>
 						        <td><?php  echo $arreglo[2]; ?></td>
-						        <?php echo "<td><a href='editar_cliente.php?id=$arreglo[0]'><i class='fa fa-pencil' aria-hidden='true'></i></a></td>"; ?>
-
-                                  <td><a href="javascript:;" onclick="aviso('controllers/delete_cliente.php?id=<?php echo $arreglo[0];?>'); return false;"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
-
-
-
-
-
+						        <?php echo "<td><a href='editar_servicio.php?id=$arreglo[0]'><i class='fa fa-pencil' aria-hidden='true'></i></a></td>"; ?>
+                                <td><a href="javascript:;" onclick="aviso('controllers/delete_servicio.php?id=<?php echo $arreglo[0];?>'); return false;"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
 						      </tr>
 						<?php 
 						}
 						?>      
 						    </tbody>
 						  </table>
-						  <a href="nuevo_cliente.php" class="btn btn-primary" role="button">Agregar un nuevo cliente</a>
+						  <a href="nuevo_servicio.php" class="btn btn-primary" role="button">Agregar un nuevo Servicio</a>
                         </div>
                         <div id="footer" class="panel-footer">
                         Copyright <i class="fa fa-copyright" aria-hidden="true"></i> solucioneshts.com All Rights Reserved 2016
@@ -172,7 +167,8 @@ require_once("../session.php");
 		    };
 		}	
     </script>
-<script language="JavaScript">
+
+    <script language="JavaScript">
     function aviso(url){
     if (!confirm("ALERTA!! va a proceder a eliminar este registro, si desea eliminarlo de click en ACEPTAR\n de lo contrario de click en CANCELAR.")) {
     return false;
@@ -183,7 +179,6 @@ require_once("../session.php");
     }
     }
     </script>
-
 
 </body>
 </html>

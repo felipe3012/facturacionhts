@@ -1,16 +1,14 @@
-<?php 
-session_start();
+<?php
+session_start(); 
 
 $usuario = $_SESSION['name'];
-
 
 include "../conexion.php";
 
 require_once("../session.php");
 
-	
-?>
 
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,26 +16,18 @@ require_once("../session.php");
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Clientes</title>
+    <title>Nuevo Servicio</title>
 
     <!--FAVICON-->
 
     <!--bootstrap-->
     <link rel="stylesheet" type="text/css" href="../bootstrap/css/bootstrap.min.css">
     <!--font-awesome-->
-       <link rel="stylesheet" type="text/css" href="../assets/css/font-awesome.min.css">
-    <!--hoja estilos principal-->
-
+    <link rel="stylesheet" type="text/css" href="../assets/css/font-awesome.min.css">
+    <!--hoja estilos principal
+    <link rel="stylesheet" href="../assets/css/main.css" />-->
     <!--hoja estilos principal-->
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
-
-    <!--jquery-->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="../assets/js/jquery-3.1.1.min.js"></script>
-
-    <!--bootstrap js-->
-    <script src="../bootstrap/js/bootstrap.min.js"></script>
-
 
 </head>
 
@@ -48,6 +38,9 @@ require_once("../session.php");
         background:rgba(237,235,235,0.5);
     }
 
+    a{
+        text-align: center;
+    }
 </style>
 
 <body>
@@ -65,7 +58,7 @@ require_once("../session.php");
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="index.php">
+                    <a class="navbar-brand" href="home.php">
                         Facturación HTS
                     </a>
                 </div>
@@ -78,7 +71,7 @@ require_once("../session.php");
 
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
-                    <li><a href="index.php" role="button" aria-expanded="false"><i class="fa fa-home" aria-hidden="true"></i> Inicio</a></li>
+                    <li><a href="servicio.php" role="button" aria-expanded="false"><i class="fa fa-arrow-left" aria-hidden="true"></i> retroceder</a></li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     <?php echo $usuario; ?> <span class="caret"></span>
@@ -102,56 +95,36 @@ require_once("../session.php");
                 </div>
             </div>
         </nav>
-
+<br><br>
         <div class="container">
             <div class="row">
-                <div class="col-md-12 col-md-offset-0">
+            <div class="col-md-3 col-md-offset-0">
+            </div>
+                <div class="col-md-6 col-md-offset-0">
                     <div class="panel panel-default">
-                        <div class="panel-heading"><h2 style="text-align:center;">Clientes</h2></div>
+                        <div class="panel-heading"><h2 style="text-align: center;">Agregar un nuevo Servicio</h2></div>
+
                         <div class="panel-body">
-
-                        <?php $sql=("SELECT c.id_cliente, c.nit, c.razonsocial_cliente FROM facturacionhts.clientes c order by c.id_cliente");
-                        $query=pg_query($conexion, $sql);
-                        ?>
-
-                        <table class="table table-hover" data-toggle="table" data-url="https://api.github.com/users/wenzhixin/repos" data-query-params="queryParams" data-pagination="true" data-search="true" data-height="300">
-						    <thead>
-						      <tr>
-						        <th>ID</th>
-						        <th>NIT</th>
-						        <th>RAZÓN SOCIAL</th>
-						        <th>EDITAR</th>
-                                <th>ElIMINAR</th>
-						      </tr>
-						    </thead>
-						    <tbody>
-						<?php 
-						while($arreglo=pg_fetch_array($query)){
-						?>  
-						      <tr>
-						        <td><?php  echo $arreglo[0]; ?></td>
-						        <td><?php  echo $arreglo[1]; ?></td>
-						        <td><?php  echo $arreglo[2]; ?></td>
-						        <?php echo "<td><a href='editar_cliente.php?id=$arreglo[0]'><i class='fa fa-pencil' aria-hidden='true'></i></a></td>"; ?>
-
-                                  <td><a href="javascript:;" onclick="aviso('controllers/delete_cliente.php?id=<?php echo $arreglo[0];?>'); return false;"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
-
-
-
-
-
-						      </tr>
-						<?php 
-						}
-						?>      
-						    </tbody>
-						  </table>
-						  <a href="nuevo_cliente.php" class="btn btn-primary" role="button">Agregar un nuevo cliente</a>
+                        <div class="col-md-12">
+                           <form role="form" action="controllers/validar_servicio.php" method="POST">
+                              <div class="form-group">
+                                <label for="nombre">NOMBRE:</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" required>
+                              </div>
+                              <div class="form-group">
+                                <label for="descripcion">DESCRIPCION:</label>
+                                <input type="text" class="form-control" id="descripcion" name="descripcion" required>
+                              </div>
+                              <button type="submit" class="btn btn-primary">Guardar</button>
+                            </form>
+                        </div>    
                         </div>
-                        <div id="footer" class="panel-footer">
+                        <div id="footer" class="panel-footer" style="color: black;">
                         Copyright <i class="fa fa-copyright" aria-hidden="true"></i> solucioneshts.com All Rights Reserved 2016
                         </div>
                     </div>
+                </div>
+                <div class="col-md-3 col-md-offset-0">
                 </div>
             </div>
         </div>
@@ -160,29 +133,7 @@ require_once("../session.php");
 
     <!-- JavaScripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js" integrity="sha384-I6F5OKECLVtK/BL+8iSLDEHowSAfUo76ZL9+kGAgTRdiByINKJaqTPH/QVNS1VDb" crossorigin="anonymous"></script>
-
-    <script type="text/javascript">
-    	function queryParams() {
-		    return {
-		        type: 'owner',
-		        sort: 'updated',
-		        direction: 'desc',
-		        per_page: 100,
-		        page: 1
-		    };
-		}	
-    </script>
-<script language="JavaScript">
-    function aviso(url){
-    if (!confirm("ALERTA!! va a proceder a eliminar este registro, si desea eliminarlo de click en ACEPTAR\n de lo contrario de click en CANCELAR.")) {
-    return false;
-    }
-    else {
-    document.location = url;
-    return true;
-    }
-    }
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
 
 </body>
